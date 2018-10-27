@@ -11,8 +11,6 @@ const DAL = {
   executeNonQuery(query) {
     const db = this.openDatabase();
 
-    console.log(query);
-
     db.serialize(() => {
       db.run(query);
     });
