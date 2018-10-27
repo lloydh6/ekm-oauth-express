@@ -1,22 +1,24 @@
 const sqlite3 = require('sqlite3').verbose();
 
 const DAL = {
-    openDatabase: function() {
-        const db = new sqlite3.Database('./database.sqlite');
-        return db;
-    },
-    closeDatabase: function(db) {
-        db.close();
-    },
-    executeNonQuery: function(query) {
-        const db = this.openDatabase();
+  openDatabase() {
+    const db = new sqlite3.Database('./database.sqlite');
+    return db;
+  },
+  closeDatabase(db) {
+    db.close();
+  },
+  executeNonQuery(query) {
+    const db = this.openDatabase();
 
-        db.serialize(() => {
-            db.run(query);
-        });
+    console.log(query);
 
-        this.closeDatabase(db);
-    }
-}
+    db.serialize(() => {
+      db.run(query);
+    });
+
+    this.closeDatabase(db);
+  },
+};
 
 module.exports = DAL;
