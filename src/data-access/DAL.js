@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 
 const DAL = {
   openDatabase() {
-    const db = new sqlite3.Database('./database.sqlite');
+    const db = new sqlite3.Database('./src/data-access/database.sqlite');
     return db;
   },
   closeDatabase(db) {
