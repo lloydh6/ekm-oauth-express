@@ -1,21 +1,15 @@
 const fetch = require('node-fetch');
 
-const DAL = require('../data-access/DAL');
 const config = require('../../config');
 const urlHelper = require('../lib/urls');
 
-const step1 = (req, res) => {
-  if (req == null || Object.keys(req.query).length === 0) {
-    throw new Error('Error: Request is null.');
-  }
-  DAL.executeNonQuery(`INSERT INTO tbl_InitialAuthorization (Code, Scope, State) VALUES ('${req.query.code}', '${req.query.scope}', '${req.query.state}');`);
-
+const refresh = (req, res) => {
   const body = {
     client_id: config.clientKey,
     client_secret: config.clientSecret,
-    code: req.query.code,
-    grant_type: 'authorization_code',
-    redirect_uri: 'http://localhost:3000/oauth',
+    grant_type: 'refresh_token',
+    refresh_token: req.body.refresh_token,
+    scope: req.body.scope,
   };
 
   fetch('https://api.ekm.net/connect/token',
@@ -28,4 +22,4 @@ const step1 = (req, res) => {
     .then(resp => res.send(resp));
 };
 
-module.exports = step1;
+module.exports = refresh;
