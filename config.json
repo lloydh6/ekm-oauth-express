@@ -1,0 +1,8 @@
+{
+    "clientKey": "ENTER_CLIENT_KEY_HERE",
+    "clientSecret": "ENTER_CLIENT_SECRET_HERE",
+    "redirectUri": "http://localhost:3000/oauth",
+    "ekmOauthApiUri": "https://api.ekm.net/connect/token",
+    "databasePath": "./src/data-access/database.sqlite",
+    "enableLogs": false
+}

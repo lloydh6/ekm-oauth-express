@@ -11,18 +11,23 @@ const step1 = (req, res) => {
 
   log.toDatabase(`INSERT INTO tbl_InitialAuthorization (Code, Scope, State) VALUES ('${req.query.code}', '${req.query.scope}', '${req.query.state}');`);
 
-  const body = {
+  const body = urlHelper.convertObjectToFormUrlEncodedString({
     client_id: config.clientKey,
     client_secret: config.clientSecret,
     code: req.query.code,
     grant_type: 'authorization_code',
     redirect_uri: config.redirectUri,
-  };
+  });
 
-  fetch('https://api.ekm.net/connect/token',
+  const tokenEndpoint = config.ekmOauthApiUri;
+  const method = 'POST';
+
+  log.toDatabase(`INSERT INTO tbl_RequestLogs (Endpoint, Verb, Body, Type) VALUES ('${tokenEndpoint}', '${method}', '${body}', 1);`);
+
+  fetch(tokenEndpoint,
     {
-      method: 'POST',
-      body: urlHelper.convertObjectToFormUrlEncodedString(body),
+      method,
+      body,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     })
     .then(resp => resp.json())
